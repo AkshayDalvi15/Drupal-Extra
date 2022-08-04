@@ -1,0 +1,27 @@
+name: drupal-extra
+recipe: drupal9
+config:
+  webroot: .
+services:
+  phpmyadmin:
+    type: phpmyadmin
+    hosts:
+      - database
+proxy:
+  phpmyadmin:
+    - phpmyadmin.drupal.lndo.site
+tooling:
+  phpcs:
+    service: appserver
+    cmd: /app/vendor/bin/phpcs
+  phpcbf:
+    service: appserver
+    cmd: /app/vendor/bin/phpcbf
+  drupalcs:
+    service: appserver
+    cmd: "/app/vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md,yml"
+    description: Run phpcs Drupal Coding Standards against a given file or directory.
+  drupalcbf:
+    service: appserver
+    cmd: "/app/vendor/bin/phpcbf --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md,yml"
+    description: Automatically fix Drupal coding standards suggestions
